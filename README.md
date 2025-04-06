@@ -1,0 +1,1 @@
+Reverts the changes made in minecraft 1.20.2, where the hit ranges were changed for many mobs. This project was created to make Decked Out 2 by Tango playable in 1.20.2+, since without this, the ravager hit range is incredibly short, making it too easy to dodge them.
