@@ -1,8 +1,6 @@
 package net.mat0u5.oldhitranges.mixin;
 
-import net.fabricmc.fabric.impl.object.builder.FabricEntityTypeImpl;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.entity.mob.SpiderEntity;
