@@ -1,33 +1,33 @@
 package net.mat0u5.oldhitranges.mixin;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.RavagerEntity;
-import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.mob.VindicatorEntity;
-import net.minecraft.entity.passive.PolarBearEntity;
-import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.polarbear.PolarBear;
+import net.minecraft.world.entity.animal.rabbit.Rabbit;
+import net.minecraft.world.entity.monster.Ravager;
+import net.minecraft.world.entity.monster.illager.Vindicator;
+import net.minecraft.world.entity.monster.spider.Spider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(MobEntity.class)
+@Mixin(Mob.class)
 public class MobEntityMixin {
 
-    @Inject(method = "isInAttackRange", at = @At("HEAD"), cancellable = true)
-    public void isInAttackRange(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-        MobEntity mob = (MobEntity)(Object)this;
-        double distance = mob.squaredDistanceTo(entity.getX(), entity.getY(), entity.getZ());
+    @Inject(method = "isWithinMeleeAttackRange", at = @At("HEAD"), cancellable = true)
+    public void isWithinMeleeAttackRange(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+        Mob mob = (Mob)(Object)this;
+        double distance = mob.distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
         double attackDistance = 0;
-        if (mob instanceof RavagerEntity) attackDistance = getSquaredMaxAttackDistance(mob.getWidth() - 0.1f, entity);
-        else if (mob instanceof SpiderEntity) attackDistance = 4.0f + mob.getWidth();
-        else if (mob instanceof PolarBearEntity) attackDistance = 4.0f + entity.getWidth();
-        else if (mob instanceof RabbitEntity) attackDistance = 4.0f + entity.getWidth();
-        else if (mob instanceof VindicatorEntity) {
-            if (mob.getVehicle() instanceof RavagerEntity) {
-                float f = mob.getVehicle().getWidth() - 0.1f;
-                attackDistance = f * 2.0f * (f * 2.0f) + entity.getWidth();
+        if (mob instanceof Ravager) attackDistance = getSquaredMaxAttackDistance(mob.getBbWidth() - 0.1f, entity);
+        else if (mob instanceof Spider) attackDistance = 4.0f + mob.getBbWidth();
+        else if (mob instanceof PolarBear) attackDistance = 4.0f + entity.getBbWidth();
+        else if (mob instanceof Rabbit) attackDistance = 4.0f + entity.getBbWidth();
+        else if (mob instanceof Vindicator) {
+            if (mob.getVehicle() instanceof Ravager) {
+                float f = mob.getVehicle().getBbWidth() - 0.1f;
+                attackDistance = f * 2.0f * (f * 2.0f) + entity.getBbWidth();
             }
             else {
                 attackDistance = getSquaredMaxAttackDistance(mob, entity);
@@ -38,10 +38,12 @@ public class MobEntityMixin {
         boolean canAttack = attackDistance >= distance;
         cir.setReturnValue(canAttack);
     }
-    public double getSquaredMaxAttackDistance(MobEntity mob, LivingEntity entity) {
-        return mob.getWidth() * 2.0f * (mob.getWidth() * 2.0f) + entity.getWidth();
+
+    public double getSquaredMaxAttackDistance(Mob mob, LivingEntity entity) {
+        return mob.getBbWidth() * 2.0f * (mob.getBbWidth() * 2.0f) + entity.getBbWidth();
     }
+
     public double getSquaredMaxAttackDistance(double modifiedWidth, LivingEntity entity) {
-        return modifiedWidth * 2.0f * (modifiedWidth * 2.0f) + entity.getWidth();
+        return modifiedWidth * 2.0f * (modifiedWidth * 2.0f) + entity.getBbWidth();
     }
 }
