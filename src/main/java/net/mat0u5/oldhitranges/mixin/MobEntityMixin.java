@@ -2,11 +2,19 @@ package net.mat0u5.oldhitranges.mixin;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+//? if <= 1.21.9 {
+/*import net.minecraft.world.entity.animal.PolarBear;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.monster.Ravager;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.monster.Vindicator;
+*///?} else {
 import net.minecraft.world.entity.animal.polarbear.PolarBear;
 import net.minecraft.world.entity.animal.rabbit.Rabbit;
 import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.monster.illager.Vindicator;
 import net.minecraft.world.entity.monster.spider.Spider;
+//?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
