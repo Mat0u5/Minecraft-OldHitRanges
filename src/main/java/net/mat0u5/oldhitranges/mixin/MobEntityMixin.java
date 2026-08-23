@@ -26,6 +26,11 @@ public class MobEntityMixin {
     @Inject(method = "isWithinMeleeAttackRange", at = @At("HEAD"), cancellable = true)
     public void isWithinMeleeAttackRange(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         Mob mob = (Mob)(Object)this;
+        //? if <= 1.21.11 {
+        /*if (mob.getTags().contains("new_range")) return;
+         *///?} else {
+        if (mob.entityTags().contains("new_range")) return;
+        //?}
         double distance = mob.distanceToSqr(entity.getX(), entity.getY(), entity.getZ());
         double attackDistance = 0;
         if (mob instanceof Ravager) attackDistance = getSquaredMaxAttackDistance(mob.getBbWidth() - 0.1f, entity);
